@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game History</title>
+    <style>
+        body {
+            background-color: #181818;
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        /* Header Bar */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 56px;
+            background: #232323;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.25);
+            padding: 0 12px;
+        }
+        .refresh-toggle-btn {
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: 4px;
+            transition: background 0.2s;
+        }
+        .refresh-toggle-btn.active {
+            background: #2ecc40;
+            color: #181818;
+        }
+        /* Burger Button */
+        .burger-btn {
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1200;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-right: 8px;
+        }
+        .burger-btn span {
+            display: block;
+            width: 28px;
+            height: 4px;
+            margin: 4px 0;
+            background: #fff;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        /* Sidebar */
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1201;
+            top: 0;
+            right: 0;
+            background-color: #232323;
+            overflow-x: hidden;
+            transition: 0.4s;
+            padding-top: 60px;
+            box-shadow: -4px 0 24px rgba(0,0,0,0.3);
+        }
+        .sidenav a {
+            padding: 16px 32px;
+            text-decoration: none;
+            font-size: 1.25rem;
+            color: #fff;
+            display: block;
+            transition: 0.2s;
+        }
+        .sidenav a:hover {
+            background: #333;
+        }
+        .sidenav .closebtn {
+            position: absolute;
+            top: 12px;
+            right: 24px;
+            font-size: 2rem;
+            color: #fff;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        /* Main container padding for fixed header */
+        .container {
+            max-width: 900px;
+            margin: 56px auto 40px auto;
+            background: #232323;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+            padding: 32px 24px;
+            position: relative;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+        h1.display-4 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .text-secondary {
+            color: #bbbbbb;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
+        }
+        thead {
+            background-color: #f3f3f3;
+            color: #222;
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            border: 1px solid #444;
+            text-align: center;
+        }
+        th {
+            font-weight: 600;
+            background: #f3f3f3;
+            color: #222;
+        }
+        tbody tr {
+            transition: background 0.2s;
+        }
+        tbody tr:hover {
+            filter: brightness(1.08);
+        }
+        code {
+            background: #222;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .game-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .game-btn {
+            background: linear-gradient(90deg, #232323 60%, #444 100%);
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 8px;
+            padding: 16px 28px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+            transition: 
+                background 0.2s, 
+                color 0.2s, 
+                border 0.2s, 
+                transform 0.1s, 
+                box-shadow 0.2s;
+            margin-bottom: 8px;
+            outline: none;
+        }
+        .game-btn:hover, .game-btn:focus {
+            background: linear-gradient(90deg, #444 60%, #232323 100%);
+            color: #ffe082;
+            border: 2px solid #ffe082;
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 4px 24px rgba(255,224,130,0.10);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px 2px;
+                margin-top: 56px;
+            }
+            th, td {
+                padding: 0.5rem 0.2rem;
+                font-size: 0.95em;
+            }
+            h1.display-4 {
+                font-size: 1.2rem;
+            }
+            .sidenav a {
+                font-size: 1rem;
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div id="sidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" aria-label="Close menu">&times;</a>
+        <a href="{{ url_for('current_game') }}">Current Game</a>
+        <a href="{{ url_for('game_history') }}">Game History</a>
+    </div>
+
+    <!-- Fixed Header Bar -->
+    <div class="header-bar">
+        <button class="burger-btn" onclick="openNav()" aria-label="Open menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+    <div class="container">
+        <h1 class="display-4">♟️ Game History</h1>
+        
+        <div class="game-buttons">
+            {% for game in games %}
+            <button class="game-btn" onclick="window.location.href='{{ url_for('view_game', game_id=loop.index) }}'">
+                Game {{ loop.index }} ({{ game|length }} moves)
+            </button>
+            {% endfor %}
+        </div>
+
+    </div>
+<script>
+/* Burger menu logic */
+function openNav() {
+    document.getElementById("sidenav").style.width = "240px";
+}
+function closeNav() {
+    document.getElementById("sidenav").style.width = "0";
+}
+
+// Remove meta refresh if present
+document.querySelectorAll('meta[http-equiv="refresh"]').forEach(meta => meta.parentNode.removeChild(meta));
+
+</script>
+</body>
+</html>
