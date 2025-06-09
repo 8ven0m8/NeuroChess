@@ -29,7 +29,7 @@ Click on the link provided in terminal for NeuroChess Feedback
 📷 Screenshots
 Game UI	Feedback Dashboard
 
-learning pygame\NeuroChess\images\gameplay.png
+https://github.com/8ven0m8/NeuroChess/blob/main/images/gameplay.png?raw=true
 
 📊 Feedback System
 Rates every move using Stockfish
