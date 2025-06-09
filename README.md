@@ -23,10 +23,15 @@ Game history and analysis
 
 
 🚀 Getting Started
+
 git clone https://github.com/8ven0m8/NeuroChess
-cd neurochess
+
+cd NeuroChess
+
 pip install -r requirements.txt
+
 python run_both.py
+
 Click on the link provided in terminal for NeuroChess Feedback
 
 📷 Screenshots
