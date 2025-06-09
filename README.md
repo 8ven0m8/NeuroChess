@@ -13,11 +13,14 @@ Real-time move tracking and rating
 Game history and analysis
 
 🛠 Tech Stack
-Component	Technology
-Game Engine	Pygame
-Chess Engine	Stockfish
-Feedback Platform	HTML/CSS/JS
-Backend		Flask
+
+| Component         | Technology     |
+|------------------|----------------|
+| Game Engine       | Pygame         |
+| Chess Engine      | Stockfish      |
+| Feedback Platform | HTML/CSS/JS    |
+| Backend           | Flask          |
+
 
 🚀 Getting Started
 git clone https://github.com/8ven0m8/NeuroChess
